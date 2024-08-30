@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Room {
     @Id
     private String id;
     private String roomType;
-    private String roomPrice;
+    private BigDecimal roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
     @DBRef
