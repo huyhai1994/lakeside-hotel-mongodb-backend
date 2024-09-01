@@ -40,7 +40,10 @@ dependencies {
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
-    implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.730'
+    implementation 'com.google.cloud:google-cloud-storage:2.1.9'
+    implementation 'com.google.firebase:firebase-admin:9.0.0'
+
+
 }
 
 tasks.named('test') {

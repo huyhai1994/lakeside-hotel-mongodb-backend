@@ -1,6 +1,7 @@
 package com.codegym.lakesidehotelmongodb.security;
 
 import com.codegym.lakesidehotelmongodb.service.CustomUserDetailsService;
+import com.codegym.lakesidehotelmongodb.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +24,16 @@ public class SecurityConfig {
     private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    private JWTAuthFilter jwtAuthFilter;
+    private JWTUtils jwtUtils;
+
+    @Bean
+    public JWTAuthFilter jwtAuthFilter() {
+        return new JWTAuthFilter(jwtUtils, customUserDetailsService);
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults()).authorizeHttpRequests(request -> request.requestMatchers("/auth/**", "/rooms/**", "/bookings/**").permitAll().anyRequest().authenticated()).sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults()).authorizeHttpRequests(request -> request.requestMatchers("/auth/**", "/rooms/**", "/bookings/**", "/api/**").permitAll().anyRequest().authenticated()).sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
