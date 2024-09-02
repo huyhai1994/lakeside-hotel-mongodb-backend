@@ -121,9 +121,10 @@ public class UserService implements IUserService {
         Response response = new Response();
         try {
             User user = userRepository.findById(userId).orElseThrow(() -> new OurException("User not found"));
-            userRepository.deleteById(userId);
+            UserDTO userDTO = Utils.mapUserEntityToUserDTOPlusUserBookingsAndRoom(user);
             response.setStatusCode(200);
             response.setMessage("successfully");
+            response.setUser(userDTO);
 
         } catch (OurException e) {
             response.setStatusCode(404);
@@ -131,18 +132,51 @@ public class UserService implements IUserService {
 
         } catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("Error while deleting an user" + e.getMessage());
+            response.setMessage("Error while deleting user" + e.getMessage());
         }
         return response;
     }
 
     @Override
     public Response getUserById(String userId) {
-        return null;
+        Response response = new Response();
+        try {
+            User user = userRepository.findById(userId).orElseThrow(() -> new OurException("User not found"));
+            UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
+            response.setStatusCode(200);
+            response.setMessage("successfully");
+            response.setUser(userDTO);
+
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error while getting user by Id" + e.getMessage());
+        }
+        return response;
     }
 
     @Override
     public Response getMyInfo(String email) {
-        return null;
+        Response response = new Response();
+        try {
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new OurException(
+                    "User not found"));
+            UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
+            response.setStatusCode(200);
+            response.setMessage("successfully");
+            response.setUser(userDTO);
+
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error while getting user's info by email" + e.getMessage());
+        }
+        return response;
     }
 }
