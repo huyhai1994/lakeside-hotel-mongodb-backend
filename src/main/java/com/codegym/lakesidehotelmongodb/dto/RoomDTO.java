@@ -1,6 +1,5 @@
 package com.codegym.lakesidehotelmongodb.dto;
 
-import com.codegym.lakesidehotelmongodb.entity.Booking;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,5 +12,5 @@ public class RoomDTO {
     private BigDecimal roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
-    private List<Booking> bookings;
+    private List<BookingDTO> bookings;
 }

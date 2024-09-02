@@ -62,13 +62,7 @@ public class Utils {
     }
 
     public static RoomDTO mapRoomEntityToRoomDTOPlusBookings(Room room) {
-        RoomDTO roomDTO = new RoomDTO();
-
-        roomDTO.setId(room.getId());
-        roomDTO.setRoomType(room.getRoomType());
-        roomDTO.setRoomPrice(room.getRoomPrice());
-        roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
-        roomDTO.setRoomDescription(room.getRoomDescription());
+        RoomDTO roomDTO = mapRoomEntityToRoomDTO(room);
 
         if (room.getBookings() != null) {
             roomDTO.setBookings(room.getBookings().stream().map(Utils::mapBookingEntityToBookingDTO).collect(Collectors.toList()));
@@ -78,15 +72,7 @@ public class Utils {
     }
 
     public static BookingDTO mapBookingEntityToBookingDTOPlusBookedRooms(Booking booking, boolean mapUser) {
-        BookingDTO bookingDTO = new BookingDTO();
-
-        bookingDTO.setId(booking.getId());
-        bookingDTO.setCheckInDate(booking.getCheckInDate());
-        bookingDTO.setCheckOutDate(booking.getCheckOutDate());
-        bookingDTO.setNumOfChildren(booking.getNumOfChildren());
-        bookingDTO.setNumOfAdults(booking.getNumOfAdults());
-        bookingDTO.setTotalNumOfGuest(booking.getTotalNumOfGuest());
-        bookingDTO.setBookingConfirmationCode(booking.getBookingConfirmationCode());
+        BookingDTO bookingDTO = mapBookingEntityToBookingDTO(booking);
 
         if (mapUser) {
             bookingDTO.setUser(Utils.mapUserEntityToUserDTO(booking.getUser()));
@@ -109,13 +95,7 @@ public class Utils {
     }
 
     public static UserDTO mapUserEntityToUserDTOPlusUserBookingsAndRoom(User user) {
-        UserDTO userDTO = new UserDTO();
-
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setPhoneNumber(user.getPhoneNumber());
-        userDTO.setRole(user.getRole());
+        UserDTO userDTO = mapUserEntityToUserDTO(user);
 
         if (!user.getBookings().isEmpty()) {
             userDTO.setBookings(user.getBookings().stream().map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, false)).collect(Collectors.toList()));
